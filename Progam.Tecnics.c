@@ -6,11 +6,11 @@
 int main(int argc, char *argv[]) {
 	
 	int h, c, linha, espaco, area = 0;
-	printf("Defina a altura do tri‚ngulo: \n",setlocale(LC_ALL,""));
+	printf("Defina a altura do tri√¢ngulo: \n",setlocale(LC_ALL,""));
 	scanf("%i", &h);
 	
 	if (h < 0){
-		printf("insira um valor v·lido");
+		printf("insira um valor v√°lido");
 		
 	} else {
 		for(linha = 0; linha < h; linha++) {
