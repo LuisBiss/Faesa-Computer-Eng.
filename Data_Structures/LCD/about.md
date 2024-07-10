@@ -1,1 +1,1 @@
-That's a example of a list with drescption. To improve the search of data with pointers.
+That's a example of a Description List. To improve the search of data with pointers.
