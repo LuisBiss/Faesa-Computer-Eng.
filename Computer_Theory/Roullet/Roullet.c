@@ -1,5 +1,5 @@
 // Create a Roullete to chosse indiduals to merge on a Heuristic Code
-// Taking the Data Structure made on the grade
+// Taking the Data Structure made on the C3 test
 
 
 // Biblioteca usada principalmente para funções de entrada e saída: printf() e scanf().
@@ -43,6 +43,7 @@ void iniciar_funcao_srand()
 // Exemplo para deixar mais claro: se minimo = 1 e maximo = 360 e rand() = 16384, temos que a escala = 16384 / 32767 que é aproximadamente 0.5. O retorno da função gerar_coordenada será 1 + 0.5 * (360-1) que é igual à 180,5, sendo esse número dentro do intervalo [1,360].
 float gerar_coordenada(float minimo, float maximo)
 {
+
     float escala = rand() / (float) RAND_MAX;
     return minimo + escala * (maximo - minimo);
 }
@@ -54,10 +55,10 @@ float calcular_distancia(ponto a, ponto b)
 }
 
 // Função de comparação para ordenação da função qsort(). Essa função retorna um inteiro. Os parâmetros são do tipo "const void *", isto é, são ponteiro que podem apontar para qualquer tipo de dado.
-// regA e regB são identificadores de variável que podem refenciar um instância específica da struct. Exemplo: regA.ID = 1;    
+// regA e regB são identificadores de variável que podem refenciar um instância específica da struct. Exemplo: regA.ID = 1;
 // a linha " registro *regA = (registro *)a;" é aconversão do ponteiro genérico "a" para um ponteiro da struct registro("registro *"), para "a" ser tratado com ponteiro da struct "registro". O mesmo vale para "b".
 // regA->Valor e regB->Valor são os acessos ao "field" Valor da struct com alias "registro".
-// Os retornos possíveis da função são: 
+// Os retornos possíveis da função são:
 // Se regA->Valor > regB->Valor, então 1 - 0 = 1. Logo "a" é maior que "b", ou seja, "a" deve vir antes de "b" no ordenamento.
 // Se regA->Valor < regB->Valor, então 0 - 1 = -1. Logo "a" é menor que "b", ou seja, "a" deve vir depois de "b" no ordenamento.
 // Se regA->Valor é igual a regB->Valor, então 0 - 0 = 0. Logo "a" e "b" são iguais e não há preferência no momento da ordenação.
@@ -89,11 +90,20 @@ void gerar_individuo(int individuo[], int n)
     }
 }
 
+// Função que busca uma posição aleatória no vetor, com pesos favoraveis para os melhores indivíduos.
+int Roleta(float CustoTotal)
+{
+    CustoTotal = CustoTotal/100;
+    int ParseInt = CustoTotal;
+    int Aleatorio = rand() % ParseInt;
+    return Aleatorio;
+}
+
 // Se a função ser executada com sucesso retorna "0" na penúltima linha(return 0;). "int argc" indica o número de argumentos informados, sendo que sempre terá pelo menos uma argumento que é o próprio nome do código a ser executado.  "char *argv[]" é um array de ponteiros que contém os argumentos informados. "argv[0]" é sempre o nome do código a ser executado.
 int main(int argc, char *argv[])
 {
     // Configuração de localidade para possibilitar o uso de caracteres com acento.
-    setlocale(LC_ALL, "");  
+    setlocale(LC_ALL, "");
     int quantidadePontos, i, j;
     printf("Primeiro escreva com quantos pontos deseja trabalhar (máximo 10):");
     scanf("%d", &quantidadePontos);
@@ -108,7 +118,7 @@ int main(int argc, char *argv[])
     ponto pontos[quantidadePontos];
 
     // Inicializa a matriz de distâncias com todos os elementos valendo 0.0.
-    float dist[10][10] = {0}; 
+    float dist[10][10] = {0};
 
     // Criação dos pontos.
     iniciar_funcao_srand();
@@ -215,8 +225,20 @@ int main(int argc, char *argv[])
         printf("] - Valor: %.2f\n", populacao[i].Valor);
     }
 
+    //Calculo do Custo Total de todos os resultados 
+    float CustoTotal = 0;
+    for(i = 0; i < 100; i++)
+    {
+        CustoTotal += populacao[i].Valor;
+    }
+    int Aleatorio_Valor = Roleta(CustoTotal);
+    //Encontrando a melhor posição que se encaixa no valor realizado pela roleta
+    int Posição = 0;
+    for(i = 0; Aleatorio_Valor >= populacao[i].Valor; i++)
+	{
+		Posição++;
+	}
+    printf("Após a Chamada da Roleta temos a posição: %d \nDe valor: %f \n",Posição, populacao[Posição].Valor);
+
     return 0;
 }
-
-//Adding the new function
-
