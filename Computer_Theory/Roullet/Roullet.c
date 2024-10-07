@@ -91,14 +91,19 @@ void gerar_individuo(int individuo[], int n)
 }
 
 // Função que busca uma posição aleatória no vetor, com pesos favoraveis para os melhores indivíduos.
-int Roleta(float CustoTotal)
+int Roleta(float CustoTotal, registro geracao[])
 {
-    CustoTotal = CustoTotal/100;
-    int ParseInt = CustoTotal;
-    int Aleatorio = rand() % ParseInt;
-    return Aleatorio;
+    int IntCusto = CustoTotal;
+    float Aleatorio = rand() % IntCusto;
+    int Posio = 0;
+    float Al_pos = 0;
+    for(i = 0; Aleatorio >= Al_pos; i++)
+	{
+		Al_pos = Al_pos + geracao[i].Valor;
+		Posio++;
+	}
+    return (Posio-1);
 }
-
 // Se a função ser executada com sucesso retorna "0" na penúltima linha(return 0;). "int argc" indica o número de argumentos informados, sendo que sempre terá pelo menos uma argumento que é o próprio nome do código a ser executado.  "char *argv[]" é um array de ponteiros que contém os argumentos informados. "argv[0]" é sempre o nome do código a ser executado.
 int main(int argc, char *argv[])
 {
@@ -225,20 +230,25 @@ int main(int argc, char *argv[])
         printf("] - Valor: %.2f\n", populacao[i].Valor);
     }
 
-    //Calculo do Custo Total de todos os resultados 
-    float CustoTotal = 0;
-    for(i = 0; i < 100; i++)
-    {
-        CustoTotal += populacao[i].Valor;
-    }
-    int Aleatorio_Valor = Roleta(CustoTotal);
-    //Encontrando a melhor posição que se encaixa no valor realizado pela roleta
-    int Posição = 0;
-    for(i = 0; Aleatorio_Valor >= populacao[i].Valor; i++)
+    /*  for(i = 0; i < 100; i++)
 	{
-		Posição++;
-	}
-    printf("Após a Chamada da Roleta temos a posição: %d \nDe valor: %f \n",Posição, populacao[Posição].Valor);
+	//Calculo do Custo Total de todos os resultados 
+	    float CustoTotal = 0;
+		for(i = 0; i < 100; i++)
+		{
+			CustoTotal += populacao[i].Valor;
+		}
+		// Novas Gerações
+	    registro filhos[40];
+		for(i = 0; i < 40; i++)
+		{
+	    int Pai = Roleta(CustoTotal, populacao);
+	    int Mae = Roleta(CustoTotal, populacao);
+		registro prodigio = Cruzo(Pai, Mae, filhos);
+	    filhos[i] = prodigio;
+		}
+	}*/
+	//printf("Tentativa de acesso à pos do in %f", Individuo[0].Valor);
 
     return 0;
 }
